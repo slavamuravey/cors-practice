@@ -3,20 +3,28 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"path"
 	"path/filepath"
 	"runtime"
+	"slavamuravey/cors/pkg/handler"
 )
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
 		tmpl, _ := template.ParseFiles(filepath.Join(getTemplatesDir(), "index.html"))
 		tmpl.Execute(w, nil)
 	})
 
+	http.HandleFunc("/api", handler.Handler)
+
 	fmt.Println("Server is listening...")
-	http.ListenAndServe(":8181", nil)
+	log.Fatal(http.ListenAndServe(":8181", nil))
 }
 
 func getCurrentFileDir() string {

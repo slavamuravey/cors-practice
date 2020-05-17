@@ -5,6 +5,21 @@
     <title>Some client application</title>
 </head>
 <body>
-<button onclick="alert('clicked')">Click</button>
+<button onclick="request('http://localhost:8080/api')">GET another origin</button>
+<button onclick="request('http://localhost:8181/api')">GET same origin</button>
+<script>
+    function request(url, method = 'GET') {
+        fetch(url, {
+            method
+        }).
+        then(res => res.json()).
+        then(res => {
+            alert(JSON.stringify(res));
+        }).
+        catch(e => {
+            alert(e);
+        });
+    }
+</script>
 </body>
 </html>
