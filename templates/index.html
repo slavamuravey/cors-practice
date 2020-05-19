@@ -7,6 +7,7 @@
 <body>
 <button onclick="request('http://localhost:8080/api')">GET another origin</button>
 <button onclick="request('http://localhost:8181/api')">GET same origin</button>
+<button onclick="callJsonp('http://localhost:8080/jsonp', 'gotWeather')">JSONP another origin</button>
 <script>
     function request(url, method = 'GET') {
         fetch(url, {
@@ -19,6 +20,16 @@
         catch(e => {
             alert(e);
         });
+    }
+
+    function callJsonp(url, callback) {
+        let script = document.createElement('script');
+        script.src = `${url}?callback=${callback}`;
+        document.body.append(script);
+    }
+
+    function gotWeather({ temperature, humidity }) {
+        alert(`temperature: ${temperature}, humidity: ${humidity}`);
     }
 </script>
 </body>
