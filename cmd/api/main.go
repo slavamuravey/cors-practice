@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/slavamuravey/cors-practice/pkg/handler"
 	"log"
 	"net/http"
-	"slavamuravey/cors/pkg/handler"
 )
 
 func main() {

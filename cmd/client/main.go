@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
+	"github.com/slavamuravey/cors-practice/pkg/handler"
 	"html/template"
 	"log"
 	"net/http"
 	"path"
 	"path/filepath"
 	"runtime"
-	"slavamuravey/cors/pkg/handler"
 )
 
 func main() {
