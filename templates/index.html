@@ -5,13 +5,38 @@
     <title>Some client application</title>
 </head>
 <body>
-<button onclick="request('http://localhost:8080/api')">GET another origin</button>
-<button onclick="request('http://localhost:8181/api')">GET same origin</button>
-<button onclick="callJsonp('http://localhost:8080/jsonp', 'gotWeather')">JSONP another origin</button>
+<div>
+    api 127.0.0.2:8080
+</div>
+<button onclick="request('http://127.0.0.2:8080/api-no-cors')">GET another origin, error expected</button>
+<button onclick="request('http://127.0.0.2:8080/api-with-cors')">GET another origin, successful response expected</button>
+<button onclick="request1('http://127.0.0.2:8080/api-with-cors-with-credentials-error')">GET with-cors-with-credentials-error</button>
+<button onclick="request1('http://127.0.0.2:8080/api-with-cors-with-credentials-success')">GET with-cors-with-credentials-success</button>
+<button onclick="request1('http://127.0.0.2:8080/api-with-cors-with-credentials-wildcard-error')">GET with-cors-with-credentials-wildcard-error</button>
+<button onclick="callJsonp('http://127.0.0.2:8080/jsonp', 'gotWeather')">JSONP another origin</button>
+
+<div>
+    api 127.0.0.1:8181
+</div>
+<button onclick="request('http://127.0.0.1:8181/api')">GET same origin</button>
 <script>
     function request(url, method = 'GET') {
         fetch(url, {
             method
+        }).
+        then(res => res.json()).
+        then(res => {
+            alert(JSON.stringify(res));
+        }).
+        catch(e => {
+            alert(e);
+        });
+    }
+
+    function request1(url, method = 'GET') {
+        fetch(url, {
+            method,
+            credentials: 'include'
         }).
         then(res => res.json()).
         then(res => {
